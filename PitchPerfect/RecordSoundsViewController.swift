@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import AVFoundation
 
-class RecordSoundsViewController: UIViewController {
+class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
+    
+    //MARK: Stored Properties
+    private var audioRecorder : AVAudioRecorder!
+    private var recordedAudio : RecordedAudio!
     
     //MARK: Computed Properties
     private enum RecordingState
@@ -38,15 +43,28 @@ class RecordSoundsViewController: UIViewController {
     //MARK: Actions
     @IBAction func recordAudio(sender: UIButton) {
         state = .ongoing
+        
+        if let fileURL = makeFileUrl() {
+            var session = AVAudioSession.sharedInstance()
+            session.setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
+            audioRecorder = AVAudioRecorder(URL: fileURL, settings: nil, error: nil)
+            audioRecorder.delegate = self
+            audioRecorder.meteringEnabled = true
+            audioRecorder.prepareToRecord()
+            audioRecorder.record()
+        }
     }
 
     @IBAction func stopRecording(sender: UIButton) {
         state = .stopped
+        audioRecorder.stop()
+        var audioSession = AVAudioSession.sharedInstance()
+        audioSession.setActive(false, error: nil)
     }
     
     
     
-    //MARK: Overrides
+    //MARK: ViewController Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -62,12 +80,42 @@ class RecordSoundsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    /*
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if (segue.identifier == "stopRecording") {
+            let playSoundVC = segue.destinationViewController as PlayAudioViewController
+            playSoundVC.receivedAudio = sender as RecordedAudio
+        }
     }
-    */
+    
+    
+    //MARK: AVAudioRecorderDelegate
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+        state = .stopped
+        if (flag) {
+            recordedAudio = RecordedAudio()
+            recordedAudio.filePathURL = recorder.url
+            recordedAudio.title = recorder.url.lastPathComponent
+            
+            performSegueWithIdentifier("stopRecording", sender: recordedAudio)
+        }
+        else {
+            println ("Recording FAILED")
+        }
+    }
+    
+    //MARK: Business Logic
+    private func makeFileUrl() -> NSURL? {
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let currentDateTime = NSDate()
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "ddMMyyyy-HHmmss"
+        let recordingName = dateFormatter.stringFromDate(currentDateTime) + ".wav"
+        let pathArray = [dirPath, recordingName]
+        let filePath = NSURL.fileURLWithPathComponents(pathArray)
+        
+        return filePath
+    }
+
 }
 

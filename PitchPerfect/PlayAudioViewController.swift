@@ -12,7 +12,8 @@ import AVFoundation
 class PlayAudioViewController: UIViewController {
     
     //MARK: Stored properties
-    var audioPlayer : AVAudioPlayer!
+    private var audioPlayer : AVAudioPlayer!
+    var receivedAudio : RecordedAudio!
     
     //MARK: Computed properties
     private enum PlayingState
@@ -53,14 +54,9 @@ class PlayAudioViewController: UIViewController {
     //MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let filePath = NSBundle.mainBundle().pathForResource("movie_quote", ofType: "mp3") {
-            let filePathUrl = NSURL.fileURLWithPath(filePath)
-            audioPlayer = AVAudioPlayer(contentsOfURL: filePathUrl, error: nil)
-            audioPlayer.enableRate = true
-        }
-        else {
-            println ("Failed loading movie_quote.mp3")
-        }
+        
+        audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathURL, error: nil)
+        audioPlayer.enableRate = true
     }
 
     override func didReceiveMemoryWarning() {
