@@ -38,6 +38,11 @@ class ViewController: UIViewController {
         state = .stopped
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         state = .stopped
