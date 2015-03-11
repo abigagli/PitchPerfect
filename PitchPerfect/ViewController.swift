@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    //MARK: Computed Properties
     private enum RecordingState
     {
         case ongoing
@@ -21,27 +22,37 @@ class ViewController: UIViewController {
             updateState()
         }
     }
-
-    @IBOutlet weak var recordingInProgress: UILabel!
-    @IBOutlet weak var stopButton: UIButton!
-    @IBOutlet weak var recordButton: UIButton!
-    
     private func updateState ()
     {
         stopButton.hidden = (state == .stopped)
         recordingInProgress.hidden = (state == .stopped)
         recordButton.enabled = (state == .stopped)
     }
+
+    //MARK: Outlets
+    @IBOutlet weak var recordingInProgress: UILabel!
+    @IBOutlet weak var stopButton: UIButton!
+    @IBOutlet weak var recordButton: UIButton!
+    
+    
+    //MARK: Actions
+    @IBAction func recordAudio(sender: UIButton) {
+        state = .ongoing
+    }
+
+    @IBAction func stopRecording(sender: UIButton) {
+        state = .stopped
+    }
+    
+    
+    
+    //MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         state = .stopped
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -52,12 +63,11 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func recordAudio(sender: UIButton) {
-        state = .ongoing
+    /*
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
     }
-
-    @IBAction func stopRecording(sender: UIButton) {
-        state = .stopped
-    }
+    */
 }
 

@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 
 class PlayAudioViewController: UIViewController {
+    
     //MARK: Stored properties
     var audioPlayer : AVAudioPlayer!
     
@@ -33,18 +34,23 @@ class PlayAudioViewController: UIViewController {
     //MARK: Outlets
     @IBOutlet weak var stopButton: UIButton!
     
-    
-    /*
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        println ("I'm born")
+    //MARK: Actions
+    @IBAction func fastPlay(sender: UIButton) {
+        playSoundWithRate(1.5)
+    }
+
+    @IBAction func slowPlay(sender: UIButton) {
+        playSoundWithRate(0.5)
     }
     
-    deinit {
-        println ("I'm dying")
+    @IBAction func stopPlaying(sender: UIButton) {
+        audioPlayer.stop()
+        state = .stopped
     }
-    */
     
+    
+    
+    //MARK: Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
         if let filePath = NSBundle.mainBundle().pathForResource("movie_quote", ofType: "mp3") {
@@ -66,6 +72,7 @@ class PlayAudioViewController: UIViewController {
         state = .stopped
     }
 
+    //MARK: Business Logic
     private func playSoundWithRate(rate : Float, fromBeginning : Bool = true) {
         audioPlayer.stop()
         if (fromBeginning) {
@@ -76,20 +83,6 @@ class PlayAudioViewController: UIViewController {
         state = .ongoing
     }
     
-    //MARK: Actions
-    
-    @IBAction func fastPlay(sender: UIButton) {
-        playSoundWithRate(1.5)
-    }
-
-    @IBAction func slowPlay(sender: UIButton) {
-        playSoundWithRate(0.5)
-    }
-    
-    @IBAction func stopPlaying(sender: UIButton) {
-        audioPlayer.stop()
-        state = .stopped
-    }
     // MARK: - Navigation
 /*
     // In a storyboard-based application, you will often want to do a little preparation before navigation
