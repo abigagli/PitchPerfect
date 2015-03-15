@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class PlayAudioViewController: UIViewController {
+class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     
     //MARK: Stored properties
     private var audioPlayer : AVAudioPlayer!
@@ -56,6 +56,7 @@ class PlayAudioViewController: UIViewController {
         super.viewDidLoad()
         
         audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathURL, error: nil)
+        audioPlayer.delegate = self
         audioPlayer.enableRate = true
     }
 
@@ -67,7 +68,13 @@ class PlayAudioViewController: UIViewController {
         super.viewWillAppear(animated)
         state = .stopped
     }
-
+    
+    //MARK: AVAudioPlayer Delegate
+    
+    func audioPlayerDidFinishPlaying(_: AVAudioPlayer!, successfully _: Bool) {
+        state = .stopped
+    }
+    
     //MARK: Business Logic
     private func playSoundWithRate(rate : Float, fromBeginning : Bool = true) {
         audioPlayer.stop()

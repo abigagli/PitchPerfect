@@ -89,7 +89,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     
-    //MARK: AVAudioRecorderDelegate
+    //MARK: AVAudioRecorder Delegate
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
         state = .stopped
         if (flag) {
