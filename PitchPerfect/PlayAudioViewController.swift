@@ -49,7 +49,11 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
         state = .stopped
     }
     
+    @IBAction func playChipmunkAudio(sender: UIButton) {
+    }
     
+    @IBAction func playDarthvaderAudio(sender: UIButton) {
+    }
     
     //MARK: Overrides
     override func viewDidLoad() {
