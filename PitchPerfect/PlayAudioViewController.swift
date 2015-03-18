@@ -116,18 +116,26 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     //MARK: Business Logic
     private func playSoundWithRate(rate : Float, fromBeginning : Bool = true) {
         hideStopTimer?.invalidate()
+        
         audioPlayer.stop()
+        
+        audioEngine.stop()
+        audioEngine.reset()
+        
         if (fromBeginning) {
             audioPlayer.currentTime = 0
         }
+        
         audioPlayer.volume = 1.0
         audioPlayer.rate = rate
         audioPlayer.play()
+        
         state = .ongoing
     }
     
     private func playSoundWithPitch(pitch : Float) {
         hideStopTimer?.invalidate()
+        
         audioPlayer.stop()
         
         audioEngine.stop()

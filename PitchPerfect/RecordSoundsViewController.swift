@@ -34,7 +34,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             infoLabel.text = "recording"
             UIView.animateWithDuration(0.5){self.stopButton.alpha = 1.0}
         case .stopped:
-            infoLabel.text = "tap mic to start recording"
+            infoLabel.text = "Tap to record"
             recordButton.enabled = true
             UIView.animateWithDuration(0.5){self.stopButton.alpha = 0}
         }
