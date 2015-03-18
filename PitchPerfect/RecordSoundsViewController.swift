@@ -16,22 +16,28 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     private var recordedAudio : RecordedAudio!
     
     //MARK: Computed Properties
-    private enum RecordingState
-    {
+    private enum RecordingState {
         case ongoing
         case stopped
     }
     
     private var state : RecordingState = .stopped {
         didSet {
-            updateState()
+            updateUI()
         }
     }
-    private func updateState ()
-    {
-        stopButton.hidden = (state == .stopped)
-        recordingInProgress.hidden = (state == .stopped)
-        recordButton.enabled = (state == .stopped)
+    
+    private func updateUI () {
+        switch state
+        {
+        case .ongoing :
+            recordingInProgress.text = "recording"
+            UIView.animateWithDuration(0.5){self.stopButton.alpha = 1.0}
+        case .stopped:
+            recordingInProgress.text = "tap mic to start recording"
+            recordButton.enabled = true
+            UIView.animateWithDuration(0.5){self.stopButton.alpha = 0}
+        }
     }
 
     //MARK: Outlets
@@ -42,8 +48,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     //MARK: Actions
     @IBAction func recordAudio(sender: UIButton) {
-        state = .ongoing
-        
         if let fileURL = makeFileUrl() {
             var session = AVAudioSession.sharedInstance()
             session.setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
@@ -52,14 +56,16 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             audioRecorder.meteringEnabled = true
             audioRecorder.prepareToRecord()
             audioRecorder.record()
+            
+            state = .ongoing
         }
     }
 
     @IBAction func stopRecording(sender: UIButton) {
-        state = .stopped
         audioRecorder.stop()
         var audioSession = AVAudioSession.sharedInstance()
         audioSession.setActive(false, error: nil)
+        state = .stopped
     }
     
     
@@ -67,18 +73,16 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     //MARK: ViewController Overrides
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        stopButton.alpha = 0
         state = .stopped
     }
 
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         state = .stopped
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -91,7 +95,6 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     //MARK: AVAudioRecorder Delegate
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
-        state = .stopped
         if (flag) {
             recordedAudio = RecordedAudio()
             recordedAudio.filePathURL = recorder.url
@@ -102,6 +105,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         else {
             println ("Recording FAILED")
         }
+        
+        state = .stopped
     }
     
     //MARK: Business Logic

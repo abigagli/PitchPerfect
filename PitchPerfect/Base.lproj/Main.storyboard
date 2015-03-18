@@ -27,7 +27,7 @@
                                     <action selector="recordAudio:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="W8q-Aa-7X3"/>
                                 </connections>
                             </button>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="recording" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TKM-Ds-MaI">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TKM-Ds-MaI">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                 <fontDescription key="fontDescription" name="STHeitiTC-Light" family="Heiti TC" pointSize="14"/>
                                 <color key="textColor" red="0.3017064144736839" green="0.27654708059210459" blue="0.24660773026315788" alpha="1" colorSpace="calibratedRGB"/>
@@ -53,7 +53,9 @@
                             <constraint firstAttribute="centerX" secondItem="BK7-id-FqE" secondAttribute="centerX" id="pjs-na-mXD">
                                 <variation key="widthClass=compact" constant="0.0"/>
                             </constraint>
-                            <constraint firstAttribute="centerX" secondItem="TKM-Ds-MaI" secondAttribute="centerX" id="tKg-da-0Lz"/>
+                            <constraint firstAttribute="centerX" secondItem="TKM-Ds-MaI" secondAttribute="centerX" id="tKg-da-0Lz">
+                                <variation key="widthClass=compact" constant="-1"/>
+                            </constraint>
                             <constraint firstAttribute="centerY" secondItem="BK7-id-FqE" secondAttribute="centerY" id="ySU-Vv-IaE">
                                 <variation key="widthClass=compact" constant="0.0"/>
                             </constraint>
@@ -181,16 +183,16 @@
                                 <exclude reference="xyD-HM-NLs"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="Ngo-WP-qQx"/>
-                                <exclude reference="fb7-4b-oQx"/>
-                                <exclude reference="HhM-Vi-HZX"/>
-                                <exclude reference="Xzw-6k-YTP"/>
+                                <exclude reference="EWu-eo-R8Y"/>
+                                <exclude reference="57Z-Pg-n4b"/>
                                 <exclude reference="eKQ-xO-dob"/>
                                 <exclude reference="usF-bP-thV"/>
+                                <exclude reference="HhM-Vi-HZX"/>
+                                <exclude reference="Xzw-6k-YTP"/>
+                                <exclude reference="Ngo-WP-qQx"/>
+                                <exclude reference="fb7-4b-oQx"/>
                                 <exclude reference="Czy-0R-oYd"/>
                                 <exclude reference="FCB-Sg-keT"/>
-                                <exclude reference="57Z-Pg-n4b"/>
-                                <exclude reference="EWu-eo-R8Y"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -202,16 +204,16 @@
                                 <include reference="xyD-HM-NLs"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="Ngo-WP-qQx"/>
-                                <include reference="fb7-4b-oQx"/>
-                                <include reference="HhM-Vi-HZX"/>
-                                <include reference="Xzw-6k-YTP"/>
+                                <include reference="EWu-eo-R8Y"/>
+                                <include reference="57Z-Pg-n4b"/>
                                 <include reference="eKQ-xO-dob"/>
                                 <include reference="usF-bP-thV"/>
+                                <include reference="HhM-Vi-HZX"/>
+                                <include reference="Xzw-6k-YTP"/>
+                                <include reference="Ngo-WP-qQx"/>
+                                <include reference="fb7-4b-oQx"/>
                                 <include reference="Czy-0R-oYd"/>
                                 <include reference="FCB-Sg-keT"/>
-                                <include reference="57Z-Pg-n4b"/>
-                                <include reference="EWu-eo-R8Y"/>
                             </mask>
                         </variation>
                     </view>

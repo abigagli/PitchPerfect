@@ -25,23 +25,19 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     var receivedAudio : RecordedAudio!
     
     //MARK: Computed properties
-    private enum PlayingState
-    {
+    private enum PlayingState {
         case ongoing
         case stopped
     }
+    
     private var state : PlayingState = .stopped {
         didSet {
-            updateState()
+            updateUI()
         }
     }
-    private func updateState ()
-    {
-        //The logic is simple: stopButton.hidden = (state == .stopped)
-        //but since I want to use animations, it's clearer to use an explicit switch 
-        //that calls 2 separate functions
+    private func updateUI () {
         
-        switch state{
+        switch state {
         case .ongoing:
             showStopButton()
         case .stopped:
@@ -95,7 +91,20 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        stopButton.alpha = 0
         state = .stopped
+    }
+    
+    override func viewDidDisappear (animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        let fileManager = NSFileManager.defaultManager()
+        var err: NSError?
+        
+        if !fileManager.removeItemAtURL(receivedAudio.filePathURL, error: &err) {
+            println("Failed removing \(receivedAudio.filePathURL): \(err!.localizedDescription)")
+        }
     }
     
     //MARK: AVAudioPlayer Delegate
@@ -111,13 +120,13 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
         if (fromBeginning) {
             audioPlayer.currentTime = 0
         }
+        audioPlayer.volume = 1.0
         audioPlayer.rate = rate
         audioPlayer.play()
         state = .ongoing
     }
     
-    private func playSoundWithPitch(pitch : Float)
-    {
+    private func playSoundWithPitch(pitch : Float) {
         hideStopTimer?.invalidate()
         audioPlayer.stop()
         
@@ -136,33 +145,23 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
             
         audioEngine.startAndReturnError(nil)
+        audioPlayerNode.volume = 1.0
         audioPlayerNode.play()
         state = .ongoing
         
         //This is kind of a kludge, but read the comments about hideStopTimer for a rationale
-        if (audioPlayerNode.playing)
-        {
+        if (audioPlayerNode.playing) {
             hideStopTimer?.invalidate()
             hideStopTimer = NSTimer.scheduledTimerWithTimeInterval(audioPlayer.duration, target: self, selector: "hideStopButton", userInfo: nil, repeats: false)
         }
     }
     
-    private func showStopButton()
-    {
-        stopButton.hidden = false
+    private func showStopButton() {
+        UIView.animateWithDuration(0.5){self.stopButton.alpha = 1.0}
     }
     
-    func hideStopButton() //Can't make this private as that prevents it being usable as a selector in NSTimer's scheduledTimerWithTimeInterval
-    {
-        stopButton.hidden = true
+    //Can't make this private as that prevents it being usable as a selector in NSTimer's scheduledTimerWithTimeInterval
+    func hideStopButton() {
+        UIView.animateWithDuration(0.5){self.stopButton.alpha = 0}
     }
-    // MARK: - Navigation
-/*
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        let s = segue;
-    }
-*/
 }
