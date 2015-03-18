@@ -31,17 +31,17 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         switch state
         {
         case .ongoing :
-            recordingInProgress.text = "recording"
+            infoLabel.text = "recording"
             UIView.animateWithDuration(0.5){self.stopButton.alpha = 1.0}
         case .stopped:
-            recordingInProgress.text = "tap mic to start recording"
+            infoLabel.text = "tap mic to start recording"
             recordButton.enabled = true
             UIView.animateWithDuration(0.5){self.stopButton.alpha = 0}
         }
     }
 
     //MARK: Outlets
-    @IBOutlet weak var recordingInProgress: UILabel!
+    @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var recordButton: UIButton!
     
