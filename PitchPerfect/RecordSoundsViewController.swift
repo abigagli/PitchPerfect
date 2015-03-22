@@ -24,28 +24,38 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     private var state : RecordingState = .stopped {
         didSet {
-            updateUI()
+            updateUI(oldValue)
         }
     }
     
-    private func updateUI () {
+    private func updateUI (previousState : RecordingState) {
         switch state
         {
         case .ongoing :
             infoLabel.text = "recording"
             recordButton.enabled = false
+            if (previousState == .paused) {
+                //When coming from the paused state, just stop all animation and blast the alpha to 1.0
+                pauseButton.layer.removeAllAnimations()
+                pauseButton.alpha = 1.0
+            }
+            else {
+                UIView.animateWithDuration(0.5){self.pauseButton.alpha = 1.0}
+            }
+            
             UIView.animateWithDuration(0.5){self.stopButton.alpha = 1.0}
-            UIView.animateWithDuration(0.5){self.pauseButton.alpha = 1.0}
         case .stopped:
             infoLabel.text = "Tap to record"
             recordButton.enabled = true
+            pauseButton.layer.removeAllAnimations()
             UIView.animateWithDuration(0.5){self.stopButton.alpha = 0}
             UIView.animateWithDuration(0.5){self.pauseButton.alpha = 0}
         case .paused:
             infoLabel.text = "paused"
+            UIView.animateWithDuration(0.5, delay: 0, options: .AllowUserInteraction | .Repeat | .Autoreverse, animations: {self.pauseButton.alpha = 0.1}, completion: nil)
         }
     }
-
+    
     //MARK: Outlets
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var stopButton: UIButton!
