@@ -19,6 +19,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     private enum RecordingState {
         case ongoing
         case stopped
+        case paused
     }
     
     private var state : RecordingState = .stopped {
@@ -32,11 +33,16 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         {
         case .ongoing :
             infoLabel.text = "recording"
+            recordButton.enabled = false
             UIView.animateWithDuration(0.5){self.stopButton.alpha = 1.0}
+            UIView.animateWithDuration(0.5){self.pauseButton.alpha = 1.0}
         case .stopped:
             infoLabel.text = "Tap to record"
             recordButton.enabled = true
             UIView.animateWithDuration(0.5){self.stopButton.alpha = 0}
+            UIView.animateWithDuration(0.5){self.pauseButton.alpha = 0}
+        case .paused:
+            infoLabel.text = "paused"
         }
     }
 
@@ -44,10 +50,11 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     @IBOutlet weak var infoLabel: UILabel!
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var recordButton: UIButton!
+    @IBOutlet weak var pauseButton: UIButton!
     
     
     //MARK: Actions
-    @IBAction func recordAudio(sender: UIButton) {
+    @IBAction func recordAudio() {
         if let fileURL = makeFileUrl() {
             var session = AVAudioSession.sharedInstance()
             session.setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
@@ -56,18 +63,27 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             audioRecorder.meteringEnabled = true
             audioRecorder.prepareToRecord()
             audioRecorder.record()
-            
             state = .ongoing
         }
     }
 
-    @IBAction func stopRecording(sender: UIButton) {
+    @IBAction func stopRecording() {
         audioRecorder.stop()
         var audioSession = AVAudioSession.sharedInstance()
         audioSession.setActive(false, error: nil)
         state = .stopped
     }
     
+    @IBAction func pauseAndResume() {
+        if (state == .ongoing) {
+            audioRecorder.pause()
+            state = .paused
+        }
+        else {
+            audioRecorder.record()
+            state = .ongoing
+        }
+    }
     
     
     //MARK: ViewController Overrides
@@ -75,6 +91,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
         super.viewDidLoad()
         
         stopButton.alpha = 0
+        pauseButton.alpha = 0
         state = .stopped
     }
 
