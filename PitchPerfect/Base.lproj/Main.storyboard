@@ -157,6 +157,9 @@
                                 <state key="normal" image="Echo Effect">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="playEchoedAudio" destination="Pwf-GT-ay5" eventType="touchUpInside" id="BCp-Te-FZg"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-HM-NLs" userLabel="Darth">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
