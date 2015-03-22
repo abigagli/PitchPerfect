@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rfw-3d-5hB">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -125,75 +126,27 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r9c-hb-Wz0" userLabel="Slow">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="1uB-7Y-S3r"/>
-                                    <constraint firstAttribute="width" constant="100" id="hKW-ws-AMs"/>
-                                </constraints>
                                 <state key="normal" image="Slow Play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="1uB-7Y-S3r"/>
-                                        <exclude reference="hKW-ws-AMs"/>
-                                    </mask>
-                                </variation>
-                                <variation key="widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="1uB-7Y-S3r"/>
-                                        <include reference="hKW-ws-AMs"/>
-                                    </mask>
-                                </variation>
                                 <connections>
                                     <action selector="slowPlay:" destination="Pwf-GT-ay5" eventType="touchUpInside" id="fyQ-it-6c2"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BhG-IX-wHi" userLabel="Fast">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="lLR-YO-h6D"/>
-                                    <constraint firstAttribute="width" constant="100" id="lX5-Kw-WkF"/>
-                                </constraints>
                                 <state key="normal" image="Fast Play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="lLR-YO-h6D"/>
-                                        <exclude reference="lX5-Kw-WkF"/>
-                                    </mask>
-                                </variation>
-                                <variation key="widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="lLR-YO-h6D"/>
-                                        <include reference="lX5-Kw-WkF"/>
-                                    </mask>
-                                </variation>
                                 <connections>
                                     <action selector="fastPlay:" destination="Pwf-GT-ay5" eventType="touchUpInside" id="Nst-j1-17v"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0b-rv-gV4" userLabel="Chipmunk">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="Szp-cX-jYl"/>
-                                    <constraint firstAttribute="width" constant="100" id="WdN-xU-qfr"/>
-                                </constraints>
                                 <state key="normal" image="Chipmunk Effect">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Szp-cX-jYl"/>
-                                        <exclude reference="WdN-xU-qfr"/>
-                                    </mask>
-                                </variation>
-                                <variation key="widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="Szp-cX-jYl"/>
-                                        <include reference="WdN-xU-qfr"/>
-                                    </mask>
-                                </variation>
                                 <connections>
                                     <action selector="playChipmunkAudio:" destination="Pwf-GT-ay5" eventType="touchUpInside" id="qoO-Yd-jbU"/>
                                 </connections>
@@ -212,25 +165,9 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-HM-NLs" userLabel="Darth">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="Pyv-rL-b8e"/>
-                                    <constraint firstAttribute="height" constant="100" id="kb1-7r-tZQ"/>
-                                </constraints>
                                 <state key="normal" image="Darthvader Effect">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="Pyv-rL-b8e"/>
-                                        <exclude reference="kb1-7r-tZQ"/>
-                                    </mask>
-                                </variation>
-                                <variation key="widthClass=compact">
-                                    <mask key="constraints">
-                                        <include reference="Pyv-rL-b8e"/>
-                                        <include reference="kb1-7r-tZQ"/>
-                                    </mask>
-                                </variation>
                                 <connections>
                                     <action selector="playDarthvaderAudio:" destination="Pwf-GT-ay5" eventType="touchUpInside" id="NGO-9n-J1M"/>
                                 </connections>
@@ -239,7 +176,6 @@
                         <color key="backgroundColor" red="0.74509803919999995" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="9qs-oP-81I" secondAttribute="centerX" id="57Z-Pg-n4b"/>
-                            <constraint firstItem="xyD-HM-NLs" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BhG-IX-wHi" secondAttribute="bottom" constant="8" id="9g7-Us-QCa"/>
                             <constraint firstItem="BhG-IX-wHi" firstAttribute="top" secondItem="1Xl-7n-ZqM" secondAttribute="bottom" constant="10" id="A9Q-it-Il6"/>
                             <constraint firstItem="MpN-bC-wXC" firstAttribute="top" secondItem="sIa-AX-KX0" secondAttribute="bottom" constant="37" id="AzO-kQ-74S"/>
                             <constraint firstAttribute="centerY" secondItem="L0b-rv-gV4" secondAttribute="centerY" priority="999" id="CN8-JD-xEs"/>
@@ -253,7 +189,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="BhG-IX-wHi" secondAttribute="trailing" constant="10" id="dVW-VE-AFi"/>
                             <constraint firstItem="L0b-rv-gV4" firstAttribute="leading" secondItem="dUJ-Am-p0U" secondAttribute="leadingMargin" constant="10" id="ido-N9-Ofs"/>
                             <constraint firstItem="MpN-bC-wXC" firstAttribute="top" secondItem="VzO-rg-1AW" secondAttribute="bottom" constant="37" id="uYz-71-4GQ"/>
-                            <constraint firstItem="L0b-rv-gV4" firstAttribute="top" relation="greaterThanOrEqual" secondItem="r9c-hb-Wz0" secondAttribute="bottom" constant="8" id="zsm-Op-nfg"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -266,22 +201,20 @@
                                 <exclude reference="xyD-HM-NLs"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="S9I-CR-qvb"/>
-                                <exclude reference="cN3-3v-xW8"/>
-                                <exclude reference="CN8-JD-xEs"/>
-                                <exclude reference="ido-N9-Ofs"/>
-                                <exclude reference="zsm-Op-nfg"/>
-                                <exclude reference="A9Q-it-Il6"/>
-                                <exclude reference="dVW-VE-AFi"/>
-                                <exclude reference="9g7-Us-QCa"/>
-                                <exclude reference="FWY-aD-17S"/>
-                                <exclude reference="TtS-wM-LWh"/>
-                                <exclude reference="G96-ll-wh5"/>
-                                <exclude reference="57Z-Pg-n4b"/>
-                                <exclude reference="ccP-TE-ar7"/>
                                 <exclude reference="AzO-kQ-74S"/>
                                 <exclude reference="EWu-eo-R8Y"/>
                                 <exclude reference="uYz-71-4GQ"/>
+                                <exclude reference="57Z-Pg-n4b"/>
+                                <exclude reference="A9Q-it-Il6"/>
+                                <exclude reference="dVW-VE-AFi"/>
+                                <exclude reference="CN8-JD-xEs"/>
+                                <exclude reference="ido-N9-Ofs"/>
+                                <exclude reference="ccP-TE-ar7"/>
+                                <exclude reference="S9I-CR-qvb"/>
+                                <exclude reference="cN3-3v-xW8"/>
+                                <exclude reference="G96-ll-wh5"/>
+                                <exclude reference="FWY-aD-17S"/>
+                                <exclude reference="TtS-wM-LWh"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -295,22 +228,20 @@
                                 <include reference="xyD-HM-NLs"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="S9I-CR-qvb"/>
-                                <include reference="cN3-3v-xW8"/>
-                                <include reference="CN8-JD-xEs"/>
-                                <include reference="ido-N9-Ofs"/>
-                                <include reference="zsm-Op-nfg"/>
-                                <include reference="A9Q-it-Il6"/>
-                                <include reference="dVW-VE-AFi"/>
-                                <include reference="9g7-Us-QCa"/>
-                                <include reference="FWY-aD-17S"/>
-                                <include reference="TtS-wM-LWh"/>
-                                <include reference="G96-ll-wh5"/>
-                                <include reference="57Z-Pg-n4b"/>
-                                <include reference="ccP-TE-ar7"/>
                                 <include reference="AzO-kQ-74S"/>
                                 <include reference="EWu-eo-R8Y"/>
                                 <include reference="uYz-71-4GQ"/>
+                                <include reference="57Z-Pg-n4b"/>
+                                <include reference="A9Q-it-Il6"/>
+                                <include reference="dVW-VE-AFi"/>
+                                <include reference="CN8-JD-xEs"/>
+                                <include reference="ido-N9-Ofs"/>
+                                <include reference="ccP-TE-ar7"/>
+                                <include reference="S9I-CR-qvb"/>
+                                <include reference="cN3-3v-xW8"/>
+                                <include reference="G96-ll-wh5"/>
+                                <include reference="FWY-aD-17S"/>
+                                <include reference="TtS-wM-LWh"/>
                             </mask>
                         </variation>
                     </view>
