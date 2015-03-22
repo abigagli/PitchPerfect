@@ -50,28 +50,43 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet weak var stopButton: UIButton!
     
     //MARK: Actions
-    @IBAction func fastPlay(sender: UIButton) {
+    @IBAction func fastPlay() {
         playSoundWithRate(1.5)
     }
 
-    @IBAction func slowPlay(sender: UIButton) {
+    @IBAction func slowPlay() {
         playSoundWithRate(0.5)
     }
     
-    @IBAction func stopPlaying(sender: UIButton) {
-        audioPlayer.stop()
-        audioEngine.stop()
-        hideStopTimer?.invalidate()
+    @IBAction func stopPlaying() {
+        stopAllAudio()
         state = .stopped
     }
     
-    @IBAction func playChipmunkAudio(sender: UIButton) {
-        playSoundWithPitch(1000)
+    @IBAction func playChipmunkAudio() {
+        playSoundWithEffect {
+            var changePitchEffect = AVAudioUnitTimePitch()
+            changePitchEffect.pitch = 1000
+            return changePitchEffect
+        }
     }
     
-    @IBAction func playDarthvaderAudio(sender: UIButton) {
-        playSoundWithPitch(-1000)
+    @IBAction func playDarthvaderAudio() {
+        playSoundWithEffect {
+            var changePitchEffect = AVAudioUnitTimePitch()
+            changePitchEffect.pitch = -1000
+            return changePitchEffect
+        }
     }
+    
+    @IBAction func playReverbAudio() {
+        playSoundWithEffect {
+            var reverbEffect = AVAudioUnitReverb()
+            reverbEffect.wetDryMix = 100
+            return reverbEffect
+            }
+    }
+    
     
     //MARK: Overrides
     override func viewDidLoad() {
@@ -99,12 +114,15 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidDisappear (animated: Bool) {
         super.viewDidDisappear(animated)
         
+        //Remove the audio file
         let fileManager = NSFileManager.defaultManager()
         var err: NSError?
         
         if !fileManager.removeItemAtURL(receivedAudio.filePathURL, error: &err) {
             println("Failed removing \(receivedAudio.filePathURL): \(err!.localizedDescription)")
         }
+        
+        stopAllAudio()
     }
     
     //MARK: AVAudioPlayer Delegate
@@ -115,12 +133,7 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     
     //MARK: Business Logic
     private func playSoundWithRate(rate : Float, fromBeginning : Bool = true) {
-        hideStopTimer?.invalidate()
-        
-        audioPlayer.stop()
-        
-        audioEngine.stop()
-        audioEngine.reset()
+        stopAllAudio()
         
         if (fromBeginning) {
             audioPlayer.currentTime = 0
@@ -133,23 +146,18 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
         state = .ongoing
     }
     
-    private func playSoundWithPitch(pitch : Float) {
-        hideStopTimer?.invalidate()
-        
-        audioPlayer.stop()
-        
-        audioEngine.stop()
-        audioEngine.reset()
+    private func playSoundWithEffect (configuredEffect :()->AVAudioUnit) {
+        stopAllAudio()
         
         var audioPlayerNode = AVAudioPlayerNode()
         audioEngine.attachNode(audioPlayerNode)
         
-        var changePitchEffect = AVAudioUnitTimePitch()
-        changePitchEffect.pitch = pitch
-        audioEngine.attachNode(changePitchEffect)
+        var effect = configuredEffect()
         
-        audioEngine.connect(audioPlayerNode, to: changePitchEffect, format: nil)
-        audioEngine.connect(changePitchEffect, to: audioEngine.outputNode, format: nil)
+        audioEngine.attachNode(effect)
+        
+        audioEngine.connect(audioPlayerNode, to: effect, format: nil)
+        audioEngine.connect(effect, to: audioEngine.outputNode, format: nil)
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
             
         audioEngine.startAndReturnError(nil)
@@ -162,6 +170,15 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
             hideStopTimer?.invalidate()
             hideStopTimer = NSTimer.scheduledTimerWithTimeInterval(audioPlayer.duration, target: self, selector: "hideStopButton", userInfo: nil, repeats: false)
         }
+        
+    }
+
+    private func stopAllAudio()
+    {
+        hideStopTimer?.invalidate()
+        audioPlayer.stop()
+        audioEngine.stop()
+        audioEngine.reset()
     }
     
     private func showStopButton() {
