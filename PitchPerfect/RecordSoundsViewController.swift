@@ -114,8 +114,8 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "stopRecording") {
-            let playSoundVC = segue.destinationViewController as PlayAudioViewController
-            playSoundVC.receivedAudio = sender as RecordedAudio
+            let playSoundVC = segue.destinationViewController as! PlayAudioViewController
+            playSoundVC.receivedAudio = sender as! RecordedAudio
         }
     }
     
@@ -136,7 +136,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     //MARK: Business Logic
     private func makeFileUrl() -> NSURL? {
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
         let currentDateTime = NSDate()
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "ddMMyyyy-HHmmss"
