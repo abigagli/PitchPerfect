@@ -11,42 +11,6 @@ import AVFoundation
 
 class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     
-    //MARK: Stored properties
-    private var audioPlayer : AVAudioPlayer!
-    private var audioEngine : AVAudioEngine!
-    private var audioFile : AVAudioFile!
-    
-    //Needed to work-around what seems to be a "quirk" (or a bug) in the way AVAudioPlayerNode's
-    //completion handler behaves: it seems to fire at least 2-3 seconds after the sound really stopped
-    //playing, so it's not really good as a mean to automatically hide the stop button.
-    //Resorting to an NSTimer-based solution instead, as read on SO
-    //NOTE: Unfortunately this doesn't completely work with the ECHO effect as the duration considered for the timer is the "nominal" duration of the file, i.e. not considering the echo tails, so that the button will disappear but the echo tails will still be playing for a while unless you navigate back to the recording VC, in which case the stopAllAudio call will shut down everything
-    private var hideStopTimer : NSTimer!
-    
-    var receivedAudio : RecordedAudio!
-    
-    //MARK: Computed properties
-    private enum PlayingState {
-        case ongoing
-        case stopped
-    }
-    
-    private var state : PlayingState = .stopped {
-        didSet {
-            updateUI()
-        }
-    }
-    private func updateUI () {
-        
-        switch state {
-        case .ongoing:
-            showStopButton()
-        case .stopped:
-            hideStopButton()
-        }
-    }
-
-
     //MARK: Outlets
     @IBOutlet weak var stopButton: UIButton!
     
@@ -95,6 +59,43 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
             return delayEffect
             }
     }
+
+    //MARK: Stored properties
+    private var audioPlayer: AVAudioPlayer!
+    private var audioEngine: AVAudioEngine!
+    private var audioFile: AVAudioFile!
+    
+    //Needed to work-around what seems to be a "quirk" (or a bug) in the way AVAudioPlayerNode's
+    //completion handler behaves: it seems to fire at least 2-3 seconds after the sound really stopped
+    //playing, so it's not really good as a mean to automatically hide the stop button.
+    //Resorting to an NSTimer-based solution instead, as read on SO
+    //NOTE: Unfortunately this doesn't completely work with the ECHO effect as the duration considered for the timer is the "nominal" duration of the file, i.e. not considering the echo tails, so that the button will disappear but the echo tails will still be playing for a while unless you navigate back to the recording VC, in which case the stopAllAudio call will shut down everything
+    private var hideStopTimer: NSTimer!
+    
+    var receivedAudio: RecordedAudio!
+    
+    //MARK: Computed properties
+    private enum PlayingState {
+        case ongoing
+        case stopped
+    }
+    
+    private var state: PlayingState = .stopped {
+        didSet {
+            updateUI()
+        }
+    }
+    private func updateUI () {
+        
+        switch state {
+        case .ongoing:
+            showStopButton()
+        case .stopped:
+            hideStopButton()
+        }
+    }
+
+
     
     //MARK: Overrides
     override func viewDidLoad() {
@@ -140,7 +141,7 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     //MARK: Business Logic
-    private func playSoundWithRate(rate : Float, fromBeginning : Bool = true) {
+    private func playSoundWithRate(rate: Float, fromBeginning: Bool = true) {
         stopAllAudio()
         
         if (fromBeginning) {
@@ -154,7 +155,7 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
         state = .ongoing
     }
     
-    private func playSoundWithEffect (configuredEffect :()->AVAudioUnit) {
+    private func playSoundWithEffect (configuredEffect: ()->AVAudioUnit) {
         stopAllAudio()
         
         var audioPlayerNode = AVAudioPlayerNode()
