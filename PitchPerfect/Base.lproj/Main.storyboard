@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rfw-3d-5hB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="rfw-3d-5hB">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -72,14 +72,14 @@
                                 <exclude reference="YG9-dY-kB3"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="pjs-na-mXD"/>
-                                <exclude reference="ySU-Vv-IaE"/>
+                                <exclude reference="IEq-nE-gAr"/>
                                 <exclude reference="LE1-xz-xNp"/>
                                 <exclude reference="tKg-da-0Lz"/>
-                                <exclude reference="grg-Ns-lSS"/>
                                 <exclude reference="gXu-JI-KfB"/>
                                 <exclude reference="kcN-iQ-3Wi"/>
-                                <exclude reference="IEq-nE-gAr"/>
+                                <exclude reference="pjs-na-mXD"/>
+                                <exclude reference="ySU-Vv-IaE"/>
+                                <exclude reference="grg-Ns-lSS"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -89,13 +89,13 @@
                                 <include reference="5hs-i9-69W"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="pjs-na-mXD"/>
-                                <include reference="ySU-Vv-IaE"/>
+                                <include reference="IEq-nE-gAr"/>
                                 <include reference="LE1-xz-xNp"/>
                                 <include reference="tKg-da-0Lz"/>
-                                <include reference="grg-Ns-lSS"/>
                                 <include reference="kcN-iQ-3Wi"/>
-                                <include reference="IEq-nE-gAr"/>
+                                <include reference="pjs-na-mXD"/>
+                                <include reference="ySU-Vv-IaE"/>
+                                <include reference="grg-Ns-lSS"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">

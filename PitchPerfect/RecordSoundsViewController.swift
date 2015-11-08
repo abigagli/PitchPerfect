@@ -21,9 +21,12 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     //MARK: Actions
     @IBAction func recordAudio() {
         if let fileURL = makeFileUrl() {
-            var session = AVAudioSession.sharedInstance()
-            session.setCategory(AVAudioSessionCategoryPlayAndRecord, error: nil)
-            audioRecorder = AVAudioRecorder(URL: fileURL, settings: nil, error: nil)
+            let session = AVAudioSession.sharedInstance()
+            do {
+                try session.setCategory(AVAudioSessionCategoryPlayAndRecord)
+            } catch _ {
+            }
+            audioRecorder = try? AVAudioRecorder(URL: fileURL, settings: [String: AnyObject]())
             audioRecorder.delegate = self
             audioRecorder.meteringEnabled = true
             audioRecorder.prepareToRecord()
@@ -34,8 +37,11 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
 
     @IBAction func stopRecording() {
         audioRecorder.stop()
-        var audioSession = AVAudioSession.sharedInstance()
-        audioSession.setActive(false, error: nil)
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(false)
+        } catch _ {
+        }
         state = .stopped
     }
     
@@ -90,7 +96,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             UIView.animateWithDuration(0.5){self.pauseButton.alpha = 0}
         case .paused:
             infoLabel.text = "paused"
-            UIView.animateWithDuration(0.5, delay: 0, options: .AllowUserInteraction | .Repeat | .Autoreverse, animations: {self.pauseButton.alpha = 0.1}, completion: nil)
+            UIView.animateWithDuration(0.5, delay: 0, options: [.AllowUserInteraction, .Repeat, .Autoreverse], animations: {self.pauseButton.alpha = 0.1}, completion: nil)
         }
     }
     
@@ -123,14 +129,14 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     
     //MARK: AVAudioRecorder Delegate
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         if (flag) {
-            var recordedAudio = RecordedAudio(filePathURL: recorder.url, title: recorder.url.lastPathComponent!)
+            let recordedAudio = RecordedAudio(filePathURL: recorder.url, title: recorder.url.lastPathComponent!)
             
             performSegueWithIdentifier("stopRecording", sender: recordedAudio)
         }
         else {
-            println ("Recording FAILED")
+            print ("Recording FAILED")
         }
         
         state = .stopped
@@ -138,7 +144,7 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     //MARK: Business Logic
     private func makeFileUrl() -> NSURL? {
-        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+        let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] 
         let currentDateTime = NSDate()
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "ddMMyyyy-HHmmss"

@@ -30,7 +30,7 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     
     @IBAction func playChipmunkAudio() {
         playSoundWithEffect {
-            var changePitchEffect = AVAudioUnitTimePitch()
+            let changePitchEffect = AVAudioUnitTimePitch()
             changePitchEffect.pitch = 1000
             return changePitchEffect
         }
@@ -38,7 +38,7 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     
     @IBAction func playDarthvaderAudio() {
         playSoundWithEffect {
-            var changePitchEffect = AVAudioUnitTimePitch()
+            let changePitchEffect = AVAudioUnitTimePitch()
             changePitchEffect.pitch = -1000
             return changePitchEffect
         }
@@ -46,7 +46,7 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     
     @IBAction func playReverbAudio() {
         playSoundWithEffect {
-            var reverbEffect = AVAudioUnitReverb()
+            let reverbEffect = AVAudioUnitReverb()
             reverbEffect.wetDryMix = 100
             return reverbEffect
             }
@@ -54,7 +54,7 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     
     @IBAction func playEchoedAudio() {
         playSoundWithEffect {
-            var delayEffect = AVAudioUnitDelay()
+            let delayEffect = AVAudioUnitDelay()
             delayEffect.delayTime = NSTimeInterval(1)
             return delayEffect
             }
@@ -101,12 +101,12 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        audioPlayer = AVAudioPlayer(contentsOfURL: receivedAudio.filePathURL, error: nil)
+        audioPlayer = try? AVAudioPlayer(contentsOfURL: receivedAudio.filePathURL)
         audioPlayer.delegate = self
         audioPlayer.enableRate = true
         
         audioEngine = AVAudioEngine()
-        audioFile = AVAudioFile(forReading: receivedAudio.filePathURL, error: nil)
+        audioFile = try? AVAudioFile(forReading: receivedAudio.filePathURL)
     }
 
     override func didReceiveMemoryWarning() {
@@ -127,8 +127,11 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
         let fileManager = NSFileManager.defaultManager()
         var err: NSError?
         
-        if !fileManager.removeItemAtURL(receivedAudio.filePathURL, error: &err) {
-            println("Failed removing \(receivedAudio.filePathURL): \(err!.localizedDescription)")
+        do {
+            try fileManager.removeItemAtURL(receivedAudio.filePathURL)
+        } catch let error as NSError {
+            err = error
+            print("Failed removing \(receivedAudio.filePathURL): \(err!.localizedDescription)")
         }
         
         stopAllAudio()
@@ -136,7 +139,7 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     
     //MARK: AVAudioPlayer Delegate
     
-    func audioPlayerDidFinishPlaying(_: AVAudioPlayer!, successfully _: Bool) {
+    func audioPlayerDidFinishPlaying(_: AVAudioPlayer, successfully _: Bool) {
         state = .stopped
     }
     
@@ -158,10 +161,10 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
     private func playSoundWithEffect (configuredEffect: ()->AVAudioUnit) {
         stopAllAudio()
         
-        var audioPlayerNode = AVAudioPlayerNode()
+        let audioPlayerNode = AVAudioPlayerNode()
         audioEngine.attachNode(audioPlayerNode)
         
-        var effect = configuredEffect()
+        let effect = configuredEffect()
         
         audioEngine.attachNode(effect)
         
@@ -169,7 +172,10 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
         audioEngine.connect(effect, to: audioEngine.outputNode, format: nil)
         audioPlayerNode.scheduleFile(audioFile, atTime: nil, completionHandler: nil)
             
-        audioEngine.startAndReturnError(nil)
+        do {
+            try audioEngine.start()
+        } catch _ {
+        }
         audioPlayerNode.volume = 1.0
         audioPlayerNode.play()
         state = .ongoing
