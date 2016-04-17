@@ -183,7 +183,7 @@ class PlayAudioViewController: UIViewController, AVAudioPlayerDelegate {
         //This is kind of a kludge, but read the comments about hideStopTimer for a rationale
         if (audioPlayerNode.playing) {
             hideStopTimer?.invalidate()
-            hideStopTimer = NSTimer.scheduledTimerWithTimeInterval(audioPlayer.duration, target: self, selector: "hideStopButton", userInfo: nil, repeats: false)
+            hideStopTimer = NSTimer.scheduledTimerWithTimeInterval(audioPlayer.duration, target: self, selector: #selector(PlayAudioViewController.hideStopButton), userInfo: nil, repeats: false)
         }
         
     }
